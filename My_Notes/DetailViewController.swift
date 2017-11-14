@@ -8,24 +8,33 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextViewDelegate {
 
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
+    @IBOutlet weak var detailDescriptionTextView: UITextView!
 
 
     func configureView() {
         // Update the user interface for the detail item.
-        if let detail = detailItem {
-            if let label = detailDescriptionLabel {
-                label.text = detail.description
-            }
+        
+        if objects.count == 0 {
+            return
         }
+            if let label = detailDescriptionTextView {
+                label.text = objects[currentIndex]
+                if label.text == blank_note {
+                    label.text = ""
+                }
+            }
+        
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        configureView()
+        detailViewController = self
+        detailDescriptionTextView.becomeFirstResponder()
+        detailDescriptionTextView.delegate = self
+        self.configureView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,13 +42,38 @@ class DetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    var detailItem: NSDate? {
+    var detailItem: AnyObject? {
         didSet {
             // Update the view.
-            configureView()
+            self.configureView() 
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if objects.count == 0{
+            return
+        }
+        objects[currentIndex] = detailDescriptionTextView.text
+        if detailDescriptionTextView.text == "" {
+            
+             objects[currentIndex] = blank_note
+        }
+        saveAndUpdate()
+        
+    }
+    
+    func saveAndUpdate()
+    {
+        masterView?.save()
+        masterView?.tableView.reloadData()
+    }
 
+    func textViewDidChange(_ textView: UITextView) {
+        objects[currentIndex] = detailDescriptionTextView.text
+        saveAndUpdate()
+    }
 
 }
 
