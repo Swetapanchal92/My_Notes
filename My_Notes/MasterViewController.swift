@@ -50,7 +50,7 @@ class MasterViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func insertNewObject(_ sender: Any) {
+    @objc func insertNewObject(_ sender: Any) {
         
         if detailViewController?.detailDescriptionTextView.isEditable==false{
             return

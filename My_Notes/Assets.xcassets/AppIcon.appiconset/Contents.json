@@ -45,8 +45,14 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "note_app_logo-3x_60-3.png",
+      "filename" : "note_app_logo-3x-60.png",
       "scale" : "3x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "note_app_logo-1x-1025.png",
+      "scale" : "1x"
     }
   ],
   "info" : {
